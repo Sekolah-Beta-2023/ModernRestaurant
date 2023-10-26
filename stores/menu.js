@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useMenuStore = defineStore('menu', {
    state: () => ({
-      menuActive: false,
+      menuActive: true,
       items: [
          { icon: "dessert.svg", link: '' },
          { icon: "dessert.svg", link: 'dessert' },

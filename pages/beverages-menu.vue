@@ -1,5 +1,12 @@
 <script setup>
 import DefaultLayout from '~/layouts/DefaultLayout.vue';
+import { items } from '../utils/data.js';
+import { useCartStore } from '~/stores/cart';
+const cartStore = useCartStore()
+
+const openDrawer = ref(false);
+
+const handleCloseDrawer = () => openDrawer.value = !openDrawer.value
 
 </script>
 
@@ -9,67 +16,22 @@ import DefaultLayout from '~/layouts/DefaultLayout.vue';
          <div class="content-menu">
             <h1>Beverages Menu's</h1>
             <div class="menu">
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
+               <div v-for="(product, i) in items" :key="i" class="card" @click="cartStore.addProductToCart(product)">
+                  <img src='~/assets/images/salad.png' alt="" width="100" height="100" >
                   <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
-                  </div>
-               </div>
-               <div class="card">
-                  <img src="~/assets/images/salad.png" alt="" width="100" height="100" >
-                  <div class="card-body">
-                     <h5 class="title">Nestea Lemon</h5>
-                     <p class="price">Price</p>
+                     <h5 class="title">{{ product.title }}</h5>
+                     <p class="price">{{ product.price }}</p>
                   </div>
                </div>
             </div>
 
-            <div class="cart-content">
-               <span class="count">0</span>
+            <div class="cart-content" @click="openDrawer = !openDrawer">
+               <span class="count">{{ cartStore.items.length }}</span>
                <Icon class="cart" name="ant-design:shopping-cart-outlined" size="60" />
+            </div>
+
+            <div class="drawer" v-if="openDrawer">
+               <Drawer @close-drawer="handleCloseDrawer" />
             </div>
          </div>
       </div>
@@ -84,6 +46,16 @@ import DefaultLayout from '~/layouts/DefaultLayout.vue';
    justify-content: center;
    align-items: center;
    width: 100%;
+   border-radius: 10px;
+}
+
+.drawer  {
+   position: absolute;
+   top: 9.6%;
+   right: 31px;
+   height: 89.9%;
+   background-color: #FAF0E6;
+   width: 450px;
    border-radius: 10px;
 }
 
